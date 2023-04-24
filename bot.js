@@ -92,7 +92,7 @@ async function onUpdate (update) {
       if (message.text == "/start") {
         return (await fetch(apiUrl('sendMessage', {
           chat_id: chat_id23.id,
-          text: "هیچ دستوری ندارد",
+          text: "There is no command",
           reply_to_message_id: message_id23
         }))).json()
       }
