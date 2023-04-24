@@ -3,7 +3,7 @@
  */
 
 const TOKEN = '***' // Get it from @BotFather https://core.telegram.org/bots#6-botfather
-const NAME = "Amir" // Get it from @chatIDrobot
+const NAME = "Amir" //Name group Or Channel
 const IDCHAT = -1001966565849 // Get it from @chatIDrobot
 const TIMEZON = 'Asia/Tehran' // The timezone of your country
 const WEBHOOK = '/endpoint'// No need to edit
