@@ -16,4 +16,7 @@ Run Bot Time in Group and Channel - Telegram on Cloudflare Worker.
 
 ## [Amir_Wolf512](https://t.me/amir_wolf512)
 
+## @Sample-نمونه:
+![jpg1](https://user-images.githubusercontent.com/60442490/233877305-d962810a-f31c-43bf-b009-dee2751177dc.png)
 ## @Setup-اموزش نصب:
+
