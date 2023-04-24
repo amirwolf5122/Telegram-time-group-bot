@@ -3,10 +3,12 @@
  */
 
 const TOKEN = '***' // Get it from @BotFather https://core.telegram.org/bots#6-botfather
-const WEBHOOK = '/endpoint'// No need to edit
-const SECRET = 'QUEVEDO_BZRP_Music_Sessions_52' // No need to edit
+const NAME = "Amir" // Get it from @chatIDrobot
 const IDCHAT = -1001966565849 // Get it from @chatIDrobot
 const TIMEZON = 'Asia/Tehran' // The timezone of your country
+const WEBHOOK = '/endpoint'// No need to edit
+const SECRET = 'QUEVEDO_BZRP_Music_Sessions_52' // No need to edit
+
 /**
  * Wait for requests to the worker
  */
@@ -35,7 +37,7 @@ async function settilte (event) {
   }
   const id223 = (await fetch(apiUrl('setChatTitle', {
           chat_id: IDCHAT,
-          title: `Amir ${time}`,
+          title: NAME + " " +time,
         })))
   const response23 = await id223.json();
   return new Response(JSON.stringify(response23, null, 2))
