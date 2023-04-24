@@ -3,10 +3,10 @@
  */
 
 const TOKEN = '5928781748:AAHG1bi_5_4Kyf0mIdULIheX_1_xSXgVROI' // Get it from @BotFather https://core.telegram.org/bots#6-botfather
-const WEBHOOK = '/endpoint'
-const SECRET = 'QUEVEDO_BZRP_Music_Sessions_52' // A-Z, a-z, 0-9, _ and -
-const IDCHAT = -1001966565849
-const TIMEZON = 'Asia/Tehran'
+const WEBHOOK = '/endpoint'// No need to edit
+const SECRET = 'QUEVEDO_BZRP_Music_Sessions_52' // No need to edit
+const IDCHAT = -1001966565849 // Get it from @chatIDrobot
+const TIMEZON = 'Asia/Tehran' // The timezone of your country
 /**
  * Wait for requests to the worker
  */
