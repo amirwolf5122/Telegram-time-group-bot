@@ -4,7 +4,7 @@
 
 const TOKEN = '***' // Get it from @BotFather https://core.telegram.org/bots#6-botfather
 const NAME = "Amir" //Name group Or Channel
-const IDCHAT = -1001966565849 // Get it from @chatIDrobot
+const IDCHAT = -1001966565849 // Get it from @chatIDrobot  ## Getting the numerical ID of a group or channel.
 const TIMEZON = 'Asia/Tehran' // The timezone of your country
 const WEBHOOK = '/endpoint'// No need to edit
 const SECRET = 'QUEVEDO_BZRP_Music_Sessions_52' // No need to edit
