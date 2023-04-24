@@ -2,7 +2,7 @@
  * https://github.com/amirwolf5122/Telegram-time-group-bot
  */
 
-const TOKEN = '5928781748:AAHG1bi_5_4Kyf0mIdULIheX_1_xSXgVROI' // Get it from @BotFather https://core.telegram.org/bots#6-botfather
+const TOKEN = '***' // Get it from @BotFather https://core.telegram.org/bots#6-botfather
 const WEBHOOK = '/endpoint'// No need to edit
 const SECRET = 'QUEVEDO_BZRP_Music_Sessions_52' // No need to edit
 const IDCHAT = -1001966565849 // Get it from @chatIDrobot
