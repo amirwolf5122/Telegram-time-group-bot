@@ -1,15 +1,21 @@
 /**
- * https://github.com/amirwolf5122/telegram-bot-cloudflare
+ * https://github.com/amirwolf5122/Telegram-time-group-bot
  */
 
-const TOKEN = '59345149029:A4Ee1ANadgH4xHdaUlod-pp2mSvUlMOKQvo' // از ربات  @BotFather  بگیر
-const WEBHOOK = '/endpoint'//نیاز به ویرایش نیست
-const SECRET = 'QUEVEDO_BZRP_Music_Sessions_52' //نیاز به ویرایش نیست
-const ADMIN = 5679710243 //ایدی عددی ادمین
+const TOKEN = '5928781748:AAHG1bi_5_4Kyf0mIdULIheX_1_xSXgVROI' // Get it from @BotFather https://core.telegram.org/bots#6-botfather
+const WEBHOOK = '/endpoint'
+const SECRET = 'QUEVEDO_BZRP_Music_Sessions_52' // A-Z, a-z, 0-9, _ and -
+const IDCHAT = -1001966565849
+const TIMEZON = 'Asia/Tehran'
+/**
+ * Wait for requests to the worker
+ */
 addEventListener('fetch', event => {
   const url = new URL(event.request.url)
   if (url.pathname === WEBHOOK) {
     event.respondWith(handleWebhook(event))
+  } else if (url.pathname === '/cron') {
+    event.respondWith(settilte(event))
   } else if (url.pathname === '/registerWebhook') {
     event.respondWith(registerWebhook(event, url, WEBHOOK, SECRET))
   } else if (url.pathname === '/unRegisterWebhook') {
@@ -19,12 +25,26 @@ addEventListener('fetch', event => {
   }
 })
 
-
+async function settilte (event) {
+  var date = new Date();
+  var options = { timeZone: TIMEZON, hour12: false, hour: 'numeric', minute: 'numeric' };
+  var time = date.toLocaleTimeString('en-US', options);
+  
+  if (time.slice(0,2) === '24') {
+    time = '00' + time.slice(2);
+  }
+  const id223 = (await fetch(apiUrl('setChatTitle', {
+          chat_id: IDCHAT,
+          title: `Amir ${time}`,
+        })))
+  const response23 = await id223.json();
+  return new Response(JSON.stringify(response23, null, 2))
+  
+}
 async function handleWebhook (event) {
   if (event.request.headers.get('X-Telegram-Bot-Api-Secret-Token') !== SECRET) {
     return new Response('Unauthorized', { status: 403 })
   }
-
   const update = await event.request.json()
   event.waitUntil(onUpdate(update))
 
@@ -32,142 +52,54 @@ async function handleWebhook (event) {
 }
 
 async function onUpdate (update) {
-  if ('callback_query' in update) {
-    await onCallbackQuery(update.callback_query)
-  }
-  if ('message' in update) {
-    await onMessage(update.message)
-  }
-  //return fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${ADMIN}&text=${JSON.stringify(update, null, 2)}`);
-}
-async function onCallbackQuery (callback) {
-  return (await fetch(apiUrl('answerCallbackQuery', {
-    callback_query_id: callback.id,
-    text:"@amir_wolf512",
-  }))).json()
-}
-async function onMessage (message) {
-  if (message.chat.type == "private") {
-    if (message.text == "/start") {
-        return (await fetch(apiUrl('sendMessage', {
-          chat_id: message.chat.id,
-          text: "پیام خودتون ارسال کنید تا به سازندم برسونم:)",
-          reply_to_message_id: message.message_id
-        }))).json()
+    if ('message' in update) {
+      var message = update.message
     }else{
-      if (message.from.id != ADMIN) {
-        var last_name = "هیچی"
-        if ("last_name" in message.chat) {
-          var last_name = message.chat.last_name
-        }
-        const replymarkup23 = JSON.stringify({
-          inline_keyboard:
-          [
-            [
-              {
-                text: message.chat.first_name,
-                callback_data: message.chat.id+':'+message.message_id
-              },
-              {
-                text: "اسم طرف",
-                callback_data: message.chat.id+':'+message.message_id
-              }
-            ],
-            [
-              {
-                text: last_name,
-                callback_data: message.chat.id+':'+message.message_id
-              },
-              {
-                text: "فامیل طرف",
-                callback_data: message.chat.id+':'+message.message_id
-              }
-            ],
-            [
-              {
-                text: message.chat.id,
-                callback_data: message.chat.id+':'+message.message_id
-              },
-              {
-                text: "ایدی عددی طرف",
-                callback_data: message.chat.id+':'+message.message_id
-              }
-            ],
-            [
-              {
-                text: "رفتن به پیوی",
-                url: 'tg://openmessage?user_id='+message.chat.id
-              }
-            ]
-          ]
-        })
-        if ('reply_to_message' in message) {
-          if (message.reply_to_message.from.id == message.from.id){
-            var reply = message.reply_to_message.message_id+1
-          }else{
-            var reply = message.reply_to_message.reply_markup.inline_keyboard[0][0].callback_data
-          }
-          (await fetch(apiUrl('copyMessage', {
-            from_chat_id: message.chat.id,
-            message_id: message.message_id,
-            chat_id: ADMIN,
-            reply_to_message_id: reply,
-            reply_markup: replymarkup23
-          }))).json()
-        }else{
-          (await fetch(apiUrl('copyMessage', {
-            from_chat_id: message.chat.id,
-            message_id: message.message_id,
-            chat_id: ADMIN,
-            reply_markup: replymarkup23
-            }))).json()
-        }
-        return (await fetch(apiUrl('sendMessage', {
-          chat_id: message.chat.id,
-          text: "ارسال شد",
-          reply_to_message_id: message.message_id
-        }))).json()
+      var message = update
+    }
+    if ('my_chat_member' in message) {
+      var chat_id23 = message.my_chat_member.chat
+    }else{
+      if ('channel_post' in message) {
+        var chat_id23 = message.channel_post.chat
       }else{
-        if(message.reply_to_message.from.id !=message.from.id){
-          const id23 = message.reply_to_message.reply_markup.inline_keyboard[0][0].callback_data.split(":")
-          const id223 = (await fetch(apiUrl('copyMessage', {
-            from_chat_id: message.chat.id,
-            message_id: message.message_id,
-            chat_id: id23[0],
-            reply_to_message_id:id23[1],
-            reply_markup: JSON.stringify({
-            inline_keyboard:
-            [
-              [
-                {
-                  text: message.reply_to_message.from.first_name,
-                  callback_data: message.message_id
-                }
-              ]
-            ]
-            })
-          })))
-          const response23 = await id223.json();
-          if(response23.description == "Forbidden: bot was blocked by the user"){
-            return (await fetch(apiUrl('sendMessage', {
-              chat_id: message.chat.id,
-              text: "ارسال نشد کاربر ربات مسدود کرده است",
-              reply_to_message_id: message.message_id
-              }))).json()
-          }
-        return (await fetch(apiUrl('sendMessage', {
-          chat_id: message.chat.id,
-          text: "ارسال شد",
-          reply_to_message_id: message.message_id
-        }))).json()
-        }
+        var chat_id23 = message.chat
       }
     }
-  }
+    if ('channel_post' in message) {
+      var message_id23 = message.channel_post.message_id
+    }else{
+      var message_id23 = message.message_id
+    }
+    //fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=6126601231&text=${JSON.stringify(message, null, 2)}`);
+    
+    if ('new_chat_title' in message || 'channel_post' in message && 'new_chat_title' in message.channel_post) {
+      const id223 = (await fetch(apiUrl('getMe')))
+      const response23 = await id223.json();
+      if (chat_id23.type == "channel" || response23.result.id == message.from.id){
+        return (await fetch(apiUrl('deleteMessage', {
+          chat_id: chat_id23.id,
+          message_id: message_id23,
+        }))).json()
+      }
+    }
+    if ('my_chat_member' in message && chat_id23.type != "private" && chat_id23.id != IDCHAT || chat_id23.type != "private" && chat_id23.id != IDCHAT ) {
+      return (await fetch(apiUrl('leaveChat', {
+        chat_id: chat_id23.id,
+      }))).json()
+    }
+    if ( message.chat.type == "private"){
+      if (message.text == "/start") {
+        return (await fetch(apiUrl('sendMessage', {
+          chat_id: chat_id23.id,
+          text: "هیچ دستوری ندارد",
+          reply_to_message_id: message_id23
+        }))).json()
+      }
+    }
 }
 
 async function registerWebhook (event, requestUrl, suffix, secret) {
-  // https://core.telegram.org/bots/api#setwebhook
   const webhookUrl = `${requestUrl.protocol}//${requestUrl.hostname}${suffix}`
   const r = await (await fetch(apiUrl('setWebhook', { url: webhookUrl, secret_token: secret }))).json()
   return new Response('ok' in r && r.ok ? 'Ok' : JSON.stringify(r, null, 2))
