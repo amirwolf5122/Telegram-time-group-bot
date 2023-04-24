@@ -26,3 +26,7 @@ Run Bot Time in Group and Channel - Telegram on Cloudflare Worker.
 [mohmal](https://www.mohmal.com/)
 
 [Cron-job](https://cron-job.org/)
+
+[chatIDrobot](https://t.me/chatIDrobot)
+
+[BotFather](https://t.me/@BotFather)
