@@ -28,20 +28,29 @@ addEventListener('fetch', event => {
 })
 
 async function settilte (event) {
-  var date = new Date();
-  var options = { timeZone: TIMEZON, hour12: false, hour: 'numeric', minute: 'numeric' };
-  var time = date.toLocaleTimeString('en-US', options);
+  const id2232 = await fetch(`https://api.telegram.org/bot${TOKEN}/getWebhookInfo`)
+  const id22e2 = await id2232.json();
+  if (id22e2.ok){
+    if (id22e2.result.url){
+      var date = new Date();
+      var options = { timeZone: TIMEZON, hour12: false, hour: 'numeric', minute: 'numeric' };
+      var time = date.toLocaleTimeString('en-US', options);
   
-  if (time.slice(0,2) === '24') {
-    time = '00' + time.slice(2);
-  }
-  const id223 = (await fetch(apiUrl('setChatTitle', {
+      if (time.slice(0,2) === '24') {
+        time = '00' + time.slice(2);
+      }
+      const id223 = (await fetch(apiUrl('setChatTitle', {
           chat_id: IDCHAT,
           title: NAME + " " +time,
         })))
-  const response23 = await id223.json();
-  return new Response(JSON.stringify(response23, null, 2))
-  
+      const response23 = await id223.json();
+      return new Response(JSON.stringify(response23, null, 2))
+    }else{
+      return new Response("ERROR:Webhook not done")
+    }
+  }else{
+    return new Response("ERROR:The token is incorrect")
+  }
 }
 async function handleWebhook (event) {
   if (event.request.headers.get('X-Telegram-Bot-Api-Secret-Token') !== SECRET) {
