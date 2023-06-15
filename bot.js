@@ -43,6 +43,10 @@ async function settilte (event) {
           chat_id: IDCHAT,
           title: NAME + " " +time,
         })))
+      await fetch(apiUrl('SetChatDescription', {
+          chat_id: IDCHAT,
+          description: `Time:${time}`,
+        }))
       const response23 = await id223.json();
       return new Response(JSON.stringify(response23, null, 2))
     }else{
